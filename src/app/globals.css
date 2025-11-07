@@ -1,26 +1,197 @@
-@import "tailwindcss";
+/* Глобальные стили для светлой темы с контрастом */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+	box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+	background-attachment: fixed;
+	font-family: 'Inter', sans-serif;
+	position: relative;
+	overflow-x: hidden;
+	color: #334155;
+}
+
+/* Эффект частиц на фоне */
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(
+			circle at 20% 80%,
+			rgba(56, 189, 248, 0.1) 0%,
+			transparent 50%
+		),
+		radial-gradient(
+			circle at 80% 20%,
+			rgba(14, 165, 233, 0.1) 0%,
+			transparent 50%
+		),
+		radial-gradient(
+			circle at 40% 40%,
+			rgba(24, 144, 255, 0.05) 0%,
+			transparent 50%
+		);
+	pointer-events: none;
+	z-index: -1;
+}
+
+/* Анимации для карточек */
+@keyframes float {
+	0%,
+	100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-5px);
+	}
+}
+
+@keyframes glow {
+	0%,
+	100% {
+		box-shadow: 0 8px 40px rgba(14, 165, 233, 0.2);
+	}
+	50% {
+		box-shadow: 0 12px 50px rgba(14, 165, 233, 0.3);
+	}
+}
+
+/* Кастомные классы */
+.glass-card {
+	background: linear-gradient(
+		145deg,
+		rgba(241, 245, 249, 0.95),
+		rgba(226, 232, 240, 0.95)
+	) !important;
+	min-width: 370px;
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(56, 189, 248, 0.3) !important;
+	border-radius: 16px !important;
+	transition: all 0.3s ease !important;
+	color: #334155 !important;
+	height: 100%;
+}
+
+.glass-card:hover {
+	animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+	border: 1px solid rgba(56, 189, 248, 0.5) !important;
+	transform: translateY(-2px);
+}
+
+/* Контрастный текст в карточках */
+.glass-card .mantine-Text {
+	color: #334155 !important;
+}
+
+.glass-card .mantine-Text[data-dimmed] {
+	color: #64748b !important;
+}
+
+.gradient-text {
+	background: linear-gradient(135deg, #0362a1 0%, #025bc7 50%, #0e7ce9 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	font-weight: 700;
+}
+
+.gradient-border {
+	position: relative;
+	border-radius: 16px;
+}
+
+.gradient-border::before {
+	content: '';
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	right: -2px;
+	bottom: -2px;
+	background: linear-gradient(135deg, #71d1fa, #51c8ff, #61abfb);
+	border-radius: 18px;
+	z-index: -1;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.gradient-border:hover::before {
+	opacity: 1;
+}
+
+/* Улучшенные бейджи с контрастом */
+.glass-card .mantine-Badge {
+	color: white !important;
+	font-weight: 600;
+}
+
+/* Кастомный скроллбар */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: rgba(226, 232, 240, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(135deg, #0ea5e9, #096dd9);
+}
+
+/* Улучшенные заголовки */
+.mantine-Text-root[data-size='sm'] {
+	color: #475569 !important;
+	font-weight: 500;
+}
+
+.mantine-Text-root[data-size='sm'][data-dimmed] {
+	color: #64748b !important;
+	font-weight: 400;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+	.glass-card {
+		min-height: 260px;
+		padding: 16px !important;
+	}
+
+	body {
+		padding: 0 12px;
+	}
+}
+
+@media (max-width: 480px) {
+	.glass-card {
+		min-height: 240px;
+		min-width: 200px;
+		padding: 12px !important;
+	}
+
+	.glass-card:hover {
+		animation: none; /* Отключаем анимации на мобильных для производительности */
+		transform: translateY(-1px);
+	}
+}
+
+/* Адаптация для очень маленьких экранов */
+@media (max-width: 360px) {
+	.glass-card {
+		min-height: 220px;
+		min-width: 200px;
+		margin: 0 4px;
+	}
 }
