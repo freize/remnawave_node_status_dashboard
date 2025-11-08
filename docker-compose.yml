@@ -11,6 +11,8 @@ services:
     #   dockerfile: Dockerfile
     ports:
       - '3001:3001'
+    networks:
+      - remnawave-network
     environment:
       - NODE_ENV=production
       - API_BASE_URL=${API_BASE_URL}
